@@ -119,8 +119,8 @@ public class Example {
     }
 
     public static void main(String... args) {
-        generateAndSaveToFile();
-//        generate();
+//        generateAndSaveToFile();
+        generate();
 //        solve();
     }
 }
