@@ -8,6 +8,10 @@ import static vn.com.orismaster.Puzzle.EmptySquare;
 public class Generator {
     private static final Random random = new Random();
 
+    public static void setSeed(long seed) {
+        random.setSeed(seed);
+    }
+
     public static Game generate(int size, long time, int minScore, int maxScore) {
         return generate(size, time, minScore, maxScore, null);
     }

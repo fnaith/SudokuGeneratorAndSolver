@@ -5,7 +5,12 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class Util {
-    public static Random random = new Random();
+    private static final Random random = new Random();
+
+    public static void setSeed(long seed) {
+        random.setSeed(seed);
+    }
+
     public static String newLine = System.getProperty("line.separator");
     public static void permutation(ArrayList<Integer> set, ArrayList<ArrayList<Integer>> result) {
         permutation(new ArrayList<>(), set, result);
