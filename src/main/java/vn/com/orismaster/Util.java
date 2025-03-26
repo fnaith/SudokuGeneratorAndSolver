@@ -1,7 +1,6 @@
 package vn.com.orismaster;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class Util {
@@ -38,7 +37,6 @@ public class Util {
     }
 
     public static ArrayList<Integer> randomSet(int amount, int max) {
-        Random random = new Random();
         boolean[] existed = new boolean[max];
         ArrayList<Integer> set = new ArrayList<>();
         for(int i = 0; i < amount; i++) {

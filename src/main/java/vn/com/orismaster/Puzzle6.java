@@ -15,6 +15,8 @@ public class Puzzle6 extends Puzzle {
         }
     }
 
+    public static Form CLASSIC = new Form(null);
+
     public static Form FORM1 = new Form(new int[][]{
             {0, 0, 0, 0, 1, 1},
             {0, 0, 2, 1, 1, 1},
@@ -33,7 +35,7 @@ public class Puzzle6 extends Puzzle {
             {4, 5, 5, 5, 5, 5}
     });
 
-    public static Form[] FORMS = new Form[]{FORM1, FORM2};
+    public static Form[] FORMS = new Form[]{CLASSIC, FORM1, FORM2};
 
     public static void registerForm(Form form) {
         List<Form> forms = Arrays.asList(FORMS);

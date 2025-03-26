@@ -7,6 +7,12 @@ import java.util.Random;
 public abstract class Puzzle {
     public static int EmptySquare = -1;
 
+    private static final Random random = new Random();
+
+    public static void setSeed(long seed) {
+        random.setSeed(seed);
+    }
+
     private int[][] board;
     private int size;
     public int[][] form;
@@ -194,7 +200,6 @@ public abstract class Puzzle {
         }
 
         // test
-        Random random = new Random();
         for (int row = this.getHeightOfBox(); row < size(); row++) {
             int val = 0;
             do {
@@ -347,7 +352,6 @@ public abstract class Puzzle {
 
 
     private boolean randomBox(int boxIndex, boolean[][] boxExisted, boolean[][] rowExisted, boolean[][] columnExisted) {
-        Random random = new Random();
         for (int row = this.lowestRowOfBox(boxIndex); row < this.getHeightOfBox() + this.lowestRowOfBox(boxIndex); row++) {
             for (int col = this.lowestColOfBox(boxIndex); col < this.getWithOfBox() + this.lowestColOfBox(boxIndex); col++) {
                 boolean valid = false;
@@ -468,7 +472,6 @@ public abstract class Puzzle {
     }
 
     private void shuffleMap(){
-        Random random = new Random();
         // step 2: swap rows
         ArrayList<Integer> set = new ArrayList<>();
         for (int i = 0; i < this.getHeightOfBox(); i++) set.add(i);

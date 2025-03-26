@@ -15,8 +15,10 @@ public class Puzzle8 extends Puzzle {
             return form;
         }
     }
-    
-    public static Form[] FORMS = new Form[]{};
+
+    public static Form CLASSIC = new Form(null);
+
+    public static Form[] FORMS = new Form[]{CLASSIC};
 
     public static void registerForm(Form form) {
         List<Form> forms = Arrays.asList(FORMS);

@@ -1,6 +1,7 @@
 package vn.com.orismaster;
 
 public class Puzzle16 extends Puzzle {
+    public static Puzzle9.Form CLASSIC = new Puzzle9.Form(null);
 
     public Puzzle16() {
         super(16);
