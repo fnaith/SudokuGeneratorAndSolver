@@ -31,7 +31,7 @@ public class Generator {
      * @param form     the form of puzzle, set null if using a random registered form
      * @return Game
      */
-    public static Game generate(int size, long time, int minScore, int maxScore, int[][] form) {
+    public static Game generate(int size, long time, int minScore, int maxScore, Form form) {
         if (minScore > maxScore) throw new IllegalArgumentException("Min score is bigger than max score");
         long from = System.currentTimeMillis();
 
@@ -59,7 +59,7 @@ public class Generator {
      * @param form     the form of puzzle, set null if using a random registered form
      * @return Game
      */
-    public static Game generate(int size, long time, int maxScore, int[][] form) {
+    public static Game generate(int size, long time, int maxScore, Form form) {
         // random answer first
         Puzzle answer = PuzzleFactory.newSolvedPuzzle(size, form);
         if (answer == null) {

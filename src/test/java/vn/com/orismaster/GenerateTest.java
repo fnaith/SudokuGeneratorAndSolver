@@ -16,28 +16,11 @@ public final class GenerateTest {
         Util.setSeed(seed);
         Generator.setSeed(seed);
         Puzzle.setSeed(seed);
-        final var game = Generator.generate(size, 3 * 1000, 10, 1000000, form.isClassic() ? null : form.getCustomLayout().getLayout());
-        return game.getAnswer().toString() + '\n' + game.getQuestion().toString() + '\n' + game.getScore() + '\n';
-    }
-
-    public static String generateTestData(int size, int[][] form, int seed) {
-        Util.setSeed(seed);
-        Generator.setSeed(seed);
-        Puzzle.setSeed(seed);
         final var game = Generator.generate(size, 3 * 1000, 10, 1000000, form);
         return game.getAnswer().toString() + '\n' + game.getQuestion().toString() + '\n' + game.getScore() + '\n';
     }
 
     private static void saveTestData(int size, String formName, Form form, int seed) {
-        final var testFileName = buildTestFileName(size, formName, seed);
-        try (final var fw = new FileWriter(testFileName)) {
-            fw.write(generateTestData(size, form, seed));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void saveTestData(int size, String formName, int[][] form, int seed) {
         final var testFileName = buildTestFileName(size, formName, seed);
         try (final var fw = new FileWriter(testFileName)) {
             fw.write(generateTestData(size, form, seed));

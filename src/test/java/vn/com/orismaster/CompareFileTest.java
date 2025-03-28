@@ -21,20 +21,6 @@ public class CompareFileTest {
         }
     }
 
-    private static void compareTestData(int size, String formName, int[][] form, int seed, int comparePrefixLength) {
-        try {
-            final var previousTestData = GenerateTest.loadTestData(size, formName, seed);
-            final var currentTestData = GenerateTest.generateTestData(size, form, seed);
-            if (0 < comparePrefixLength) {
-                assertEquals(previousTestData.substring(0, comparePrefixLength), currentTestData.substring(0, comparePrefixLength));
-            } else {
-                assertEquals(previousTestData, currentTestData);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private static void compareTestDataForAllForm(Random randomSeed) {
         compareTestData(4, "classic", Form.CLASSIC_4, randomSeed.nextInt(), -1);
         compareTestData(4, "form1", Form.CUSTOM_4_1, randomSeed.nextInt(), -1);

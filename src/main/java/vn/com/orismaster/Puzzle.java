@@ -14,11 +14,12 @@ public abstract class Puzzle {
     }
 
     private int[][] board;
-    private int size;
-    public int[][] form;
+    private final int size;
+    protected final Form form;
 
-    Puzzle(int size) {
-        this.size = size;
+    Puzzle(Form form) {
+        this.form = form;
+        size = form.getSize();
         this.board = new int[size][size];
         for (int i = 0; i < size; i++) {
             Arrays.fill(this.board[i], EmptySquare);
@@ -75,26 +76,20 @@ public abstract class Puzzle {
         return score;
     }
 
-    public int getWith() { return 0;};
+    private int getWidth() { return form.getClassicLayout().getWidth();};
 
-    public int getHeight() { return 0;};
+    private int getHeight() { return form.getClassicLayout().getHeight();};
 
-    public int getWithOfBox() {return  0;};
+    private int getWidthOfBox() {return  form.getClassicLayout().getWidthOfBox();};
 
-    public int getHeightOfBox() {return 0;};
+    private int getHeightOfBox() {return form.getClassicLayout().getHeightOfBox();};
 
-    protected int lowestRowOfBox(int box) {
-        if(isClassicForm()) {
-            return getHeightOfBox() * (box / getWith());
-        }
-        return 0;
+    private int lowestRowOfBox(int box) {
+        return getHeightOfBox() * (box / getWidth());
     }
 
-    protected int lowestColOfBox(int box) {
-        if(isClassicForm()) {
-            return getWithOfBox() * (box % getWith());
-        }
-        return 0;
+    private int lowestColOfBox(int box) {
+        return getWidthOfBox() * (box % getWidth());
     }
 
     /**
@@ -106,10 +101,10 @@ public abstract class Puzzle {
     public int boxNumber(int row, int col) {
         if(isClassicForm()) {
             // classic form
-            return ((int) (row / getHeightOfBox())) * getWith() + (int) (col / getWithOfBox());
+            return ((int) (row / getHeightOfBox())) * getWidth() + (int) (col / getWidthOfBox());
         } else {
             // custom form
-            return this.form[row][col];
+            return form.getCustomLayout().getLayout()[row][col];
         }
     }
 
@@ -125,7 +120,7 @@ public abstract class Puzzle {
         }
     }
 
-    public int[][] getForm() {
+    public Form getForm() {
         return form;
     }
 
@@ -133,8 +128,8 @@ public abstract class Puzzle {
         if(isClassicForm()) {
             StringBuilder path = new StringBuilder();
             path.append("+");
-            for (int i = 0; i < this.getWith(); i++) {
-                for (int j = 0; j < this.getWithOfBox(); j++) {
+            for (int i = 0; i < this.getWidth(); i++) {
+                for (int j = 0; j < this.getWidthOfBox(); j++) {
                     path.append("----");
                 }
                 path.append("+");
@@ -147,7 +142,7 @@ public abstract class Puzzle {
                 for (int j = 0; j < size(); j++) {
                     if (get(i, j) != EmptySquare) s.append(String.format("%2d", get(i, j) + 1));
                     else s.append("..");
-                    if (j % getWithOfBox() != getWithOfBox() - 1) s.append("  ");
+                    if (j % getWidthOfBox() != getWidthOfBox() - 1) s.append("  ");
                     else s.append(" | ");
                 }
                 if ((i + 1) % getHeightOfBox() == 0) s.append("\r\n").append(path);
@@ -168,16 +163,16 @@ public abstract class Puzzle {
 
     private Puzzle randomClassicForm() {
         reset();
-        boolean[][] boxExisted = new boolean[getHeight() * getWith()][size()];
+        boolean[][] boxExisted = new boolean[getHeight() * getWidth()][size()];
         boolean[][] rowExisted = new boolean[size()][size()];
         boolean[][] columnExisted = new boolean[size()][size()];
-        for (int i = 0; i < getWith(); i++) {
+        for (int i = 0; i < getWidth(); i++) {
             while (true) {
                 /* backup */
-                boolean[][] _boxExisted = new boolean[getHeight() * getWith()][size()];
+                boolean[][] _boxExisted = new boolean[getHeight() * getWidth()][size()];
                 boolean[][] _rowExisted = new boolean[size()][size()];
                 boolean[][] _columnExisted = new boolean[size()][size()];
-                for (int ix = 0; ix < getHeight() * getWith(); ix++) {
+                for (int ix = 0; ix < getHeight() * getWidth(); ix++) {
                     if (size() >= 0) System.arraycopy(boxExisted[ix], 0, _boxExisted[ix], 0, size());
                 }
                 for (int ix = 0; ix < size(); ix++) {
@@ -237,7 +232,7 @@ public abstract class Puzzle {
 
     // all boxes are square
     public boolean isClassicForm() {
-        return form == null;
+        return form.isClassic();
     }
 
     /**
@@ -353,7 +348,7 @@ public abstract class Puzzle {
 
     private boolean randomBox(int boxIndex, boolean[][] boxExisted, boolean[][] rowExisted, boolean[][] columnExisted) {
         for (int row = this.lowestRowOfBox(boxIndex); row < this.getHeightOfBox() + this.lowestRowOfBox(boxIndex); row++) {
-            for (int col = this.lowestColOfBox(boxIndex); col < this.getWithOfBox() + this.lowestColOfBox(boxIndex); col++) {
+            for (int col = this.lowestColOfBox(boxIndex); col < this.getWidthOfBox() + this.lowestColOfBox(boxIndex); col++) {
                 boolean valid = false;
                 for (int val = 0; val < size(); val++) {
                     if (!boxExisted[boxIndex][val] && !rowExisted[row][val]) {
@@ -433,7 +428,7 @@ public abstract class Puzzle {
             existed[this.get(row, c)] = true;
         }
         for (int _r = this.lowestRowOfBox(this.boxNumber(row, col)), r = _r; r < _r + this.getHeightOfBox(); r++) {
-            for (int _c = this.lowestColOfBox(this.boxNumber(row, col)), c = _c; c < _c + this.getWithOfBox(); c++) {
+            for (int _c = this.lowestColOfBox(this.boxNumber(row, col)), c = _c; c < _c + this.getWidthOfBox(); c++) {
                 if (r == row && c == col) continue;
                 if (this.get(r, c) < 0) continue;
                 existed[this.get(r, c)] = true;
@@ -453,18 +448,18 @@ public abstract class Puzzle {
     private void quickPermuteRandomly() {
         // random column
         ArrayList<Integer> set = new ArrayList<>();
-        for (int i = 0; i < this.getWithOfBox(); i++) set.add(i);
+        for (int i = 0; i < this.getWidthOfBox(); i++) set.add(i);
         ArrayList<ArrayList<Integer>> permutation = new ArrayList<>();
         Util.permutation(set, permutation);
         permutation.remove(set);
-        for (int col = 0; col < this.getWith(); col++) {
+        for (int col = 0; col < this.getWidth(); col++) {
             ArrayList<Integer> ran = Util.randomSet(this.getHeight() - 1, permutation.size());
             for (int row = 1; row < this.getHeight(); row++) {
                 ArrayList<Integer> p = permutation.get(ran.get(row - 1));
                 for (int i = 0; i < this.getHeightOfBox(); i++) {
-                    for (int j = 0; j < this.getWithOfBox(); j++) {
-                        this.set(row * this.getHeightOfBox() + i, col * this.getWithOfBox() + j,
-                                this.get(i, p.get(j) + col * this.getWithOfBox()));
+                    for (int j = 0; j < this.getWidthOfBox(); j++) {
+                        this.set(row * this.getHeightOfBox() + i, col * this.getWidthOfBox() + j,
+                                this.get(i, p.get(j) + col * this.getWidthOfBox()));
                     }
                 }
             }
@@ -491,18 +486,18 @@ public abstract class Puzzle {
         }
         // step 3: swap columns
         set = new ArrayList<>();
-        for (int i = 0; i < this.getWithOfBox(); i++) set.add(i);
+        for (int i = 0; i < this.getWidthOfBox(); i++) set.add(i);
         permutation = new ArrayList<>();
         Util.permutation(set, permutation);
-        for (int col = 0; col < this.getWith(); col++) {
-            int[][] temp = new int[this.size()][this.getWithOfBox()];
+        for (int col = 0; col < this.getWidth(); col++) {
+            int[][] temp = new int[this.size()][this.getWidthOfBox()];
             ArrayList<Integer> p = permutation.get(random.nextInt(permutation.size()));
-            for (int i = 0; i < this.getWithOfBox(); i++) {
-                for (int j = 0; j < size(); j++) temp[j][i] = this.get(j, p.get(i) + col * this.getWithOfBox());
+            for (int i = 0; i < this.getWidthOfBox(); i++) {
+                for (int j = 0; j < size(); j++) temp[j][i] = this.get(j, p.get(i) + col * this.getWidthOfBox());
             }
-            for (int i = 0; i < this.getWithOfBox(); i++) {
+            for (int i = 0; i < this.getWidthOfBox(); i++) {
                 for (int j = 0; j < size(); j++) {
-                    this.set(j, i + col * this.getWithOfBox(), temp[j][i]);
+                    this.set(j, i + col * this.getWidthOfBox(), temp[j][i]);
                 }
             }
         }
