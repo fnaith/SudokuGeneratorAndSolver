@@ -1,6 +1,5 @@
 package vn.com.orismaster;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import static vn.com.orismaster.Puzzle.EmptySquare;
@@ -12,31 +11,30 @@ public class Generator {
         random.setSeed(seed);
     }
 
-    public static Game generate(int size, long time, int minScore, int maxScore) {
-        return generate(size, time, minScore, maxScore, null);
+    public static Game generate(long time, int minScore, int maxScore) {
+        return generate(time, minScore, maxScore, null);
     }
 
-    public static Game generate(int size, long time, int maxScore) {
-        return generate(size, time, maxScore, null);
+    public static Game generate(long time, int maxScore) {
+        return generate(time, maxScore, null);
     }
 
 
     /**
      * generate random game contain solved puzzle, puzzle and score of puzzle
      *
-     * @param size     the type of puzzle (example: puzzle 9x9 size = 9, 7x7 size = 7)
      * @param time     maximum thinking time (millisecond)
      * @param minScore the minimum of puzzle score
      * @param maxScore the maximum of puzzle score
      * @param form     the form of puzzle, set null if using a random registered form
      * @return Game
      */
-    public static Game generate(int size, long time, int minScore, int maxScore, Form form) {
+    public static Game generate(long time, int minScore, int maxScore, Form form) {
         if (minScore > maxScore) throw new IllegalArgumentException("Min score is bigger than max score");
         long from = System.currentTimeMillis();
 
         while (true) {
-            Game game = Generator.generate(size, time, maxScore, form);
+            Game game = Generator.generate(time, maxScore, form);
 
             // only accept puzzle with score between minScore and maxScore
             // if score is not as expected, try again
@@ -53,15 +51,14 @@ public class Generator {
     /**
      * generate random game contain solved puzzle, puzzle and score of puzzle
      *
-     * @param size     the type of puzzle (example: puzzle 9x9 size = 9, 7x7 size = 7)
      * @param time     maximum thinking time (millisecond)
      * @param maxScore the maximum of puzzle score
      * @param form     the form of puzzle, set null if using a random registered form
      * @return Game
      */
-    public static Game generate(int size, long time, int maxScore, Form form) {
+    public static Game generate(long time, int maxScore, Form form) {
         // random answer first
-        Puzzle answer = PuzzleFactory.newSolvedPuzzle(size, form);
+        Puzzle answer = PuzzleFactory.newSolvedPuzzle(form);
         if (answer == null) {
             throw new IllegalArgumentException("invalid input");
         }

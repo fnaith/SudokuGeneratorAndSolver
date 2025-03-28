@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public abstract class Puzzle {
+public class Puzzle {
     public static int EmptySquare = -1;
 
     private static final Random random = new Random();
@@ -228,7 +228,15 @@ public abstract class Puzzle {
     /**
      * @return a copy of this puzzle
      */
-    public abstract Puzzle copy();
+    public Puzzle copy() {
+        final var puzzle = new Puzzle(form);
+        for (var row = 0; row < puzzle.size(); ++row) {
+            for (var col = 0; col < puzzle.size(); ++col) {
+                puzzle.set(row, col, this.get(row, col));
+            }
+        }
+        return puzzle;
+    }
 
     // all boxes are square
     public boolean isClassicForm() {

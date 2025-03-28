@@ -24,7 +24,7 @@ public class Example {
         // list of sudoku puzzle
         // ArrayList<Game> games = new ArrayList<>();
         while (numberOfPuzzles > 0) {
-            Game game = Generator.generate(level, time, minScore, maxScore);
+            Game game = Generator.generate(time, minScore, maxScore);
             System.out.println(game.getQuestion());
             System.out.println(game.getScore());
             if (game.getScore() < minScore) {
@@ -83,7 +83,7 @@ public class Example {
     static void generate() {
 //         Game game = Generator.generate(7, 5 * 1000, 10, 1000000, Puzzle7.FORM2.toArray());
 //        Game game = Generator.generate(7, 5 * 1000, 10, 1000000);
-         Game game = Generator.generate(7, 5 * 1000, 10, 1000000, Form.of(7, CustomLayout.of(new int[][]{
+         Game game = Generator.generate(5 * 1000, 10, 1000000, Form.of(7, CustomLayout.of(new int[][]{
                  {0, 0, 1, 1, 1, 1, 2},
                  {0, 0, 0, 1, 1, 1, 2},
                  {3, 0, 0, 4, 4, 2, 2},
@@ -103,7 +103,7 @@ public class Example {
     }
 
     static void solve() {
-        Puzzle7 puzzle = new Puzzle7(Form.CUSTOM_7_2);
+        final var puzzle = new Puzzle(Form.CUSTOM_7_2);
         puzzle.setBoard(new int[][]{
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},
