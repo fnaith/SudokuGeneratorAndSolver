@@ -11,7 +11,7 @@ public final class CustomLayout {
         this.layout = layout;
     }
 
-    public int[][] getLayout() {
-        return layout;
+    public int getLayout(int row, int col) {
+        return layout[row][col];
     }
 }

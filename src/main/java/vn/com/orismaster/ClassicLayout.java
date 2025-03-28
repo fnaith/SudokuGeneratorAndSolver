@@ -32,8 +32,4 @@ public final class ClassicLayout {
     public int getHeightOfBox() {
         return heightOfBox;
     }
-
-    public int lowestRowOfBox(int box) {
-        return getWidthOfBox() * (box % getWidth());
-    }
 }

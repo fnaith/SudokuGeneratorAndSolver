@@ -104,7 +104,7 @@ public class Puzzle {
             return ((int) (row / getHeightOfBox())) * getWidth() + (int) (col / getWidthOfBox());
         } else {
             // custom form
-            return form.getCustomLayout().getLayout()[row][col];
+            return form.getCustomLayout().getLayout(row, col);
         }
     }
 
@@ -125,6 +125,7 @@ public class Puzzle {
     }
 
     public String toString() {
+        final var newLine = System.getProperty("line.separator");
         if(isClassicForm()) {
             StringBuilder path = new StringBuilder();
             path.append("+");
@@ -151,12 +152,12 @@ public class Puzzle {
             return s.toString();
         } else {
             StringBuilder s = new StringBuilder();
-            s.append(getPath(0, 0)).append(Util.newLine);
+            s.append(getPath(0, 0)).append(newLine);
             for (int i = 0; i < size(); i++) {
-                s.append(getRow(i)).append(Util.newLine);
-                if (i != size() - 1) s.append(getPath(i, i + 1)).append(Util.newLine);
+                s.append(getRow(i)).append(newLine);
+                if (i != size() - 1) s.append(getPath(i, i + 1)).append(newLine);
             }
-            s.append(getPath(size() - 1, size() - 1)).append(Util.newLine);
+            s.append(getPath(size() - 1, size() - 1)).append(newLine);
             return s.toString();
         }
     }

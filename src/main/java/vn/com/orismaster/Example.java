@@ -2,7 +2,6 @@ package vn.com.orismaster;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class Example {
 
@@ -36,13 +35,13 @@ public class Example {
 
             // write
             StringBuilder out = new StringBuilder();
-            out.append(Util.newLine);
+            out.append('\n');
             out.append("Puzzle number: ").append(numberOfPuzzles);
-            out.append(Util.newLine);
+            out.append('\n');
             out.append("Difficulty score: ").append(game.getScore());
-            out.append(Util.newLine);
+            out.append('\n');
             out.append(game.getQuestion());
-            out.append(Util.newLine);
+            out.append('\n');
             out.append(game.getAnswer());
             try (Writer writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(path, true), StandardCharsets.UTF_8))) {

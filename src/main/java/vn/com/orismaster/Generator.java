@@ -58,7 +58,8 @@ public class Generator {
      */
     public static Game generate(long time, int maxScore, Form form) {
         // random answer first
-        Puzzle answer = PuzzleFactory.newSolvedPuzzle(form);
+        Puzzle answer = new Puzzle(form);
+        answer.random();
         if (answer == null) {
             throw new IllegalArgumentException("invalid input");
         }

@@ -1,9 +1,9 @@
 package vn.com.orismaster;
 
-public class Game {
-    private Puzzle question;
-    private Puzzle answer;
-    private int score;
+public final class Game {
+    private final Puzzle question;
+    private final Puzzle answer;
+    private final int score;
 
     public Game(Puzzle question, Puzzle answer) {
         this.question = question;

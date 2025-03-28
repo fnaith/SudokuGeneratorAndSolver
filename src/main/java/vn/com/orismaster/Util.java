@@ -10,7 +10,6 @@ public class Util {
         random.setSeed(seed);
     }
 
-    public static String newLine = System.getProperty("line.separator");
     public static void permutation(ArrayList<Integer> set, ArrayList<ArrayList<Integer>> result) {
         permutation(new ArrayList<>(), set, result);
     }
