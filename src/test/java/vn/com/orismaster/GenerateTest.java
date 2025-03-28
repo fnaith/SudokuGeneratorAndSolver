@@ -12,12 +12,29 @@ public final class GenerateTest {
         return String.format("%s/%d_%s_%d.txt", ROOT_DIR_PATH, size, formName, seed);
     }
 
+    public static String generateTestData(int size, Form form, int seed) {
+        Util.setSeed(seed);
+        Generator.setSeed(seed);
+        Puzzle.setSeed(seed);
+        final var game = Generator.generate(size, 3 * 1000, 10, 1000000, form.isClassic() ? null : form.getCustomLayout().getLayout());
+        return game.getAnswer().toString() + '\n' + game.getQuestion().toString() + '\n' + game.getScore() + '\n';
+    }
+
     public static String generateTestData(int size, int[][] form, int seed) {
         Util.setSeed(seed);
         Generator.setSeed(seed);
         Puzzle.setSeed(seed);
         final var game = Generator.generate(size, 3 * 1000, 10, 1000000, form);
         return game.getAnswer().toString() + '\n' + game.getQuestion().toString() + '\n' + game.getScore() + '\n';
+    }
+
+    private static void saveTestData(int size, String formName, Form form, int seed) {
+        final var testFileName = buildTestFileName(size, formName, seed);
+        try (final var fw = new FileWriter(testFileName)) {
+            fw.write(generateTestData(size, form, seed));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void saveTestData(int size, String formName, int[][] form, int seed) {
@@ -39,22 +56,22 @@ public final class GenerateTest {
     }
 
     private static void generateTestForAllForm(Random randomSeed) {
-        saveTestData(4, "classic", Puzzle4.CLASSIC.toArray(), randomSeed.nextInt());
-        saveTestData(4, "form1", Puzzle4.FORM1.toArray(), randomSeed.nextInt());
-        saveTestData(4, "form2", Puzzle4.FORM2.toArray(), randomSeed.nextInt());
-        saveTestData(5, "form1", Puzzle5.FORM1.toArray(), randomSeed.nextInt());
-        saveTestData(5, "form2", Puzzle5.FORM2.toArray(), randomSeed.nextInt());
-        saveTestData(5, "form3", Puzzle5.FORM3.toArray(), randomSeed.nextInt());
-        saveTestData(6, "classic", Puzzle6.CLASSIC.toArray(), randomSeed.nextInt());
-        saveTestData(6, "form1", Puzzle6.FORM1.toArray(), randomSeed.nextInt());
-        saveTestData(6, "form2", Puzzle6.FORM2.toArray(), randomSeed.nextInt());
-        saveTestData(7, "form1", Puzzle7.FORM1.toArray(), randomSeed.nextInt());
-        saveTestData(7, "form2", Puzzle7.FORM2.toArray(), randomSeed.nextInt());
-        saveTestData(7, "form3", Puzzle7.FORM3.toArray(), randomSeed.nextInt());
-        saveTestData(7, "form4", Puzzle7.FORM4.toArray(), randomSeed.nextInt());
-        saveTestData(7, "form5", Puzzle7.FORM5.toArray(), randomSeed.nextInt());
-        saveTestData(8, "classic", Puzzle8.CLASSIC.toArray(), randomSeed.nextInt());
-        saveTestData(9, "classic", Puzzle9.CLASSIC.toArray(), randomSeed.nextInt());
+        saveTestData(4, "classic", Form.CLASSIC_4, randomSeed.nextInt());
+        saveTestData(4, "form1", Form.CUSTOM_4_1, randomSeed.nextInt());
+        saveTestData(4, "form2", Form.CUSTOM_4_2, randomSeed.nextInt());
+        saveTestData(5, "form1", Form.CUSTOM_5_1, randomSeed.nextInt());
+        saveTestData(5, "form2", Form.CUSTOM_5_2, randomSeed.nextInt());
+        saveTestData(5, "form3", Form.CUSTOM_5_3, randomSeed.nextInt());
+        saveTestData(6, "classic", Form.CLASSIC_6, randomSeed.nextInt());
+        saveTestData(6, "form1", Form.CUSTOM_6_1, randomSeed.nextInt());
+        saveTestData(6, "form2", Form.CUSTOM_6_2, randomSeed.nextInt());
+        saveTestData(7, "form1", Form.CUSTOM_7_1, randomSeed.nextInt());
+        saveTestData(7, "form2", Form.CUSTOM_7_2, randomSeed.nextInt());
+        saveTestData(7, "form3", Form.CUSTOM_7_3, randomSeed.nextInt());
+        saveTestData(7, "form4", Form.CUSTOM_7_4, randomSeed.nextInt());
+        saveTestData(7, "form5", Form.CUSTOM_7_5, randomSeed.nextInt());
+        saveTestData(8, "classic", Form.CLASSIC_8, randomSeed.nextInt());
+        saveTestData(9, "classic", Form.CLASSIC_9, randomSeed.nextInt());
     }
 
     public static void main(String[] args) {
@@ -64,8 +81,8 @@ public final class GenerateTest {
             generateTestForAllForm(randomSeed);
         }
         randomSeed.setSeed(69);
-        saveTestData(12, "classic", Puzzle12.CLASSIC.toArray(), randomSeed.nextInt());
-        saveTestData(16, "classic", Puzzle16.CLASSIC.toArray(), randomSeed.nextInt());
-        saveTestData(25, "classic", Puzzle25.CLASSIC.toArray(), randomSeed.nextInt());
+        saveTestData(12, "classic", Form.CLASSIC_12, randomSeed.nextInt());
+        saveTestData(16, "classic", Form.CLASSIC_16, randomSeed.nextInt());
+        saveTestData(25, "classic", Form.CLASSIC_25, randomSeed.nextInt());
     }
 }

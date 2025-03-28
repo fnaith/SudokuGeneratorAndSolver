@@ -103,7 +103,7 @@ public class Example {
     }
 
     static void solve() {
-        Puzzle7 puzzle = new Puzzle7(Puzzle7.FORM2);
+        Puzzle7 puzzle = new Puzzle7(Form.CUSTOM_7_2);
         puzzle.setBoard(new int[][]{
                 {0, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 0},

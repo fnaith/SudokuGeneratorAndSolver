@@ -1,34 +1,14 @@
 package vn.com.orismaster;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class Puzzle8 extends Puzzle {
-    
-    public static class Form {
-        private int[][] form;
-        public Form(int[][] form) {
-            this.form = form;
-        }
+    public static Form[] FORMS = new Form[]{Form.CLASSIC_8};
 
-        public int[][] toArray() {
-            return form;
-        }
-    }
+    private Form newForm;
 
-    public static Form CLASSIC = new Form(null);
-
-    public static Form[] FORMS = new Form[]{CLASSIC};
-
-    public static void registerForm(Form form) {
-        List<Form> forms = Arrays.asList(FORMS);
-        forms.add(form);
-        FORMS = forms.toArray(new Form[0]);
-    }
-    
     public Puzzle8(Form form) {
         super(8);
-        this.form = form.form;
+        newForm = form;
+        this.form = form.isClassic() ? null : form.getCustomLayout().getLayout();
     }
 
     public Puzzle8() {
@@ -57,12 +37,7 @@ public class Puzzle8 extends Puzzle {
 
     @Override
     public Puzzle copy() {
-        Puzzle puzzle;
-        if(isClassicForm()) {
-            puzzle = new Puzzle8();
-        } else {
-            puzzle = new Puzzle8(new Form(this.form));
-        }
+        Puzzle puzzle = new Puzzle8(newForm);
         for(int row = 0; row < puzzle.size(); row++) {
             for(int col = 0; col < puzzle.size(); col++) {
                 puzzle.set(row, col, this.get(row, col));

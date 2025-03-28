@@ -1,10 +1,12 @@
 package vn.com.orismaster;
 
 public class Puzzle16 extends Puzzle {
-    public static Puzzle9.Form CLASSIC = new Puzzle9.Form(null);
+    private Form newForm;
 
-    public Puzzle16() {
+    public Puzzle16(Form form) {
         super(16);
+        newForm = form;
+        this.form = form.isClassic() ? null : form.getCustomLayout().getLayout();
     }
 
     @Override
@@ -29,7 +31,7 @@ public class Puzzle16 extends Puzzle {
 
     @Override
     public Puzzle copy() {
-        Puzzle puzzle = new Puzzle16();
+        Puzzle puzzle = new Puzzle16(newForm);
         for(int row = 0; row < puzzle.size(); row++) {
             for(int col = 0; col < puzzle.size(); col++) {
                 puzzle.set(row, col, this.get(row, col));
